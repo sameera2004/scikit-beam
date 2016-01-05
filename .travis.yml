@@ -41,6 +41,7 @@ script:
 after_success:
   # - coveralls
   # - codecov
+  - env
   - echo "GH_TOKEN=${GH_TOKEN}"
   - if [ $TRAVIS_BRANCH == 'master' ] && [ $TRAVIS_PYTHON_VERSION == 3.5 ]; then
       conda create -n docs_env python=$TRAVIS_PYTHON_VERSION sphinx numpydoc ipython jupyter pip matplotlib --yes;
