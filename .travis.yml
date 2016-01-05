@@ -43,6 +43,8 @@ after_success:
   # - codecov
   - env
   - echo "GH_TOKEN=${GH_TOKEN}"
+  # trick travis into thinking that this is the master branch XD
+  - export TRAVIS_BRANCH=master
   - if [ $TRAVIS_BRANCH == 'master' ] && [ $TRAVIS_PYTHON_VERSION == 3.5 ]; then
       conda create -n docs_env python=$TRAVIS_PYTHON_VERSION sphinx numpydoc ipython jupyter pip matplotlib --yes;
       source activate docs_env;
