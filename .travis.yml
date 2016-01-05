@@ -7,7 +7,7 @@ addons:
 env:
   global:
     - GH_REF: github.com/scikit-beam/scikit-beam.git
-    - secure: "A5gJ+qdPuf8BNUNkFC0XzMZaKAgDIQWwVoHGOslXFgjLvtluk0XOPWUqKhXf0jAII/pf40nGGo55wqNKpimhAO8oUBBeP9wM9JPf7l0KaZlAfzdDBdXDa2iwAdtiviAF54uJ7MvTzslCjcER+I8iJZUQylowDJ5fEe+yvLqOfy4="
+    - secure: "KzntGlmLDUZlAB8ZiSRBtONJypv4atrnFxl+THCW8kg6YbiODcCxG9cez7mfmh63wpJ54+zeGvgGljeVvjb7bjB2p+4hZy+mLoP9xoE1w5qF4XaQ5YTOYaSQqCeWa5cEIi+854gFX7gOfW5qL+EJf7h3HtmndI15zaU5gOPjSDU="
 
 python:
   # - 2.7
@@ -41,6 +41,7 @@ script:
 after_success:
   # - coveralls
   # - codecov
+  - echo "GH_TOKEN=${GH_TOKEN}"
   - if [ $TRAVIS_BRANCH == 'master' ] && [ $TRAVIS_PYTHON_VERSION == 3.5 ]; then
       conda create -n docs_env python=$TRAVIS_PYTHON_VERSION sphinx numpydoc ipython jupyter pip matplotlib --yes;
       source activate docs_env;
