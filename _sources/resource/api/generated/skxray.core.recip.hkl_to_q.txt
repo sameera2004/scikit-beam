@@ -1,0 +1,6 @@
+skxray.core.recip.hkl_to_q
+==========================
+
+.. currentmodule:: skxray.core.recip
+
+.. autofunction:: hkl_to_q

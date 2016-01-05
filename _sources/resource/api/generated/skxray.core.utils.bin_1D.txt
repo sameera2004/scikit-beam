@@ -1,0 +1,6 @@
+skxray.core.utils.bin_1D
+========================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: bin_1D

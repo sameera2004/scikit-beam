@@ -1,0 +1,6 @@
+skxray.core.roi.rectangles
+==========================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: rectangles

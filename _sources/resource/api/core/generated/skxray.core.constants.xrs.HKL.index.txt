@@ -1,0 +1,6 @@
+skxray.core.constants.xrs.HKL.index
+===================================
+
+.. currentmodule:: skxray.core.constants.xrs
+
+.. automethod:: HKL.index

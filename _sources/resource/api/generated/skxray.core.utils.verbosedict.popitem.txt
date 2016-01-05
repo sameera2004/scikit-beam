@@ -1,0 +1,6 @@
+skxray.core.utils.verbosedict.popitem
+=====================================
+
+.. currentmodule:: skxray.core.utils
+
+.. automethod:: verbosedict.popitem

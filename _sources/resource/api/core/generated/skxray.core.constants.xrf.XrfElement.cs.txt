@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.XrfElement.cs
+=======================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. autoattribute:: XrfElement.cs

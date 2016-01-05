@@ -1,0 +1,6 @@
+skxray.core.utils.RCParamDict.clear
+===================================
+
+.. currentmodule:: skxray.core.utils
+
+.. automethod:: RCParamDict.clear

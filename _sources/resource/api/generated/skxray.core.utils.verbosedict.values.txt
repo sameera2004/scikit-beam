@@ -1,0 +1,6 @@
+skxray.core.utils.verbosedict.values
+====================================
+
+.. currentmodule:: skxray.core.utils
+
+.. automethod:: verbosedict.values

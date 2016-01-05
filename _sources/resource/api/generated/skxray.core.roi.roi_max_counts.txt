@@ -1,0 +1,6 @@
+skxray.core.roi.roi_max_counts
+==============================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: roi_max_counts

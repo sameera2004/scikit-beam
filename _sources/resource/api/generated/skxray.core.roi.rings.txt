@@ -1,0 +1,6 @@
+skxray.core.roi.rings
+=====================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: rings

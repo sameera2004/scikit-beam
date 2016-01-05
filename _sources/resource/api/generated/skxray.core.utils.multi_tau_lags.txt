@@ -1,0 +1,6 @@
+skxray.core.utils.multi_tau_lags
+================================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: multi_tau_lags

@@ -1,0 +1,6 @@
+skxray.core.utils.radius_to_twotheta
+====================================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: radius_to_twotheta

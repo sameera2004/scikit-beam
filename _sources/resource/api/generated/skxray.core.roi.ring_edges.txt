@@ -1,0 +1,6 @@
+skxray.core.roi.ring_edges
+==========================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: ring_edges

@@ -1,0 +1,6 @@
+skxray.core.utils.img_to_relative_xyi
+=====================================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: img_to_relative_xyi

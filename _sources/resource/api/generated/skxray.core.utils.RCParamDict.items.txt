@@ -1,0 +1,6 @@
+skxray.core.utils.RCParamDict.items
+===================================
+
+.. currentmodule:: skxray.core.utils
+
+.. automethod:: RCParamDict.items

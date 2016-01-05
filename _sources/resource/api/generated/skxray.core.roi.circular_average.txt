@@ -1,0 +1,6 @@
+skxray.core.roi.circular_average
+================================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: circular_average

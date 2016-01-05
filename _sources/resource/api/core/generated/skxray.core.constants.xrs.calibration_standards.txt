@@ -1,0 +1,6 @@
+skxray.core.constants.xrs.calibration_standards
+===============================================
+
+.. currentmodule:: skxray.core.constants.xrs
+
+.. autodata:: calibration_standards

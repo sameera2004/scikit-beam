@@ -1,0 +1,6 @@
+skxray.core.utils.grid3d
+========================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: grid3d

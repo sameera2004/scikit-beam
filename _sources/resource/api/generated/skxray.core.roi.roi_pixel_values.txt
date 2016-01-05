@@ -1,0 +1,6 @@
+skxray.core.roi.roi_pixel_values
+================================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: roi_pixel_values

@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.XrfElement.emission_line
+==================================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. autoattribute:: XrfElement.emission_line

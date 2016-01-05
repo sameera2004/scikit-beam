@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.XrfElement.bind_energy
+================================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. autoattribute:: XrfElement.bind_energy

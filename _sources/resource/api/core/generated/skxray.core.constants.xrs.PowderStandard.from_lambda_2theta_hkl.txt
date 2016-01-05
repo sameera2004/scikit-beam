@@ -1,0 +1,6 @@
+skxray.core.constants.xrs.PowderStandard.from_lambda_2theta_hkl
+===============================================================
+
+.. currentmodule:: skxray.core.constants.xrs
+
+.. automethod:: PowderStandard.from_lambda_2theta_hkl

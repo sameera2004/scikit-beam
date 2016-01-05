@@ -1,0 +1,6 @@
+skxray.core.utils.geometric_series
+==================================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: geometric_series

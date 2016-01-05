@@ -1,0 +1,6 @@
+skxray.core.utils.RCParamDict.popitem
+=====================================
+
+.. currentmodule:: skxray.core.utils
+
+.. automethod:: RCParamDict.popitem

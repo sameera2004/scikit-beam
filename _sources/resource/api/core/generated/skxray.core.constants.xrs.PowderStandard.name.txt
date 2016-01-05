@@ -1,0 +1,6 @@
+skxray.core.constants.xrs.PowderStandard.name
+=============================================
+
+.. currentmodule:: skxray.core.constants.xrs
+
+.. autoattribute:: PowderStandard.name

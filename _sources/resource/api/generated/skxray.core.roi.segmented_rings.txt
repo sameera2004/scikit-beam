@@ -1,0 +1,6 @@
+skxray.core.roi.segmented_rings
+===============================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: segmented_rings

@@ -1,0 +1,6 @@
+skxray.core.utils.MD_dict.get
+=============================
+
+.. currentmodule:: skxray.core.utils
+
+.. automethod:: MD_dict.get

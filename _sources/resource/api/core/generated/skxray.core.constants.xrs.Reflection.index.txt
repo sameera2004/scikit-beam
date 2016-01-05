@@ -1,0 +1,6 @@
+skxray.core.constants.xrs.Reflection.index
+==========================================
+
+.. currentmodule:: skxray.core.constants.xrs
+
+.. automethod:: Reflection.index

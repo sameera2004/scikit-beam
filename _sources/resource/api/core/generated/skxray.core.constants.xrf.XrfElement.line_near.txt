@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.XrfElement.line_near
+==============================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. automethod:: XrfElement.line_near

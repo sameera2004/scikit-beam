@@ -1,0 +1,6 @@
+skxray.core.constants.xrs.PowderStandard.convert_2theta
+=======================================================
+
+.. currentmodule:: skxray.core.constants.xrs
+
+.. automethod:: PowderStandard.convert_2theta

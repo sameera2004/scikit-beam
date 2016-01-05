@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.XrfElement.jump_factor
+================================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. autoattribute:: XrfElement.jump_factor

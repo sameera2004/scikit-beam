@@ -1,0 +1,6 @@
+skxray.core.correlation.multi_tau_auto_corr
+===========================================
+
+.. currentmodule:: skxray.core.correlation
+
+.. autofunction:: multi_tau_auto_corr

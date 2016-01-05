@@ -1,0 +1,6 @@
+skxray.core.utils.bin_edges_to_centers
+======================================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: bin_edges_to_centers

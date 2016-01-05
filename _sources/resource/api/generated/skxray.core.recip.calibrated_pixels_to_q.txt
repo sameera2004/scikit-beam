@@ -1,0 +1,6 @@
+skxray.core.recip.calibrated_pixels_to_q
+========================================
+
+.. currentmodule:: skxray.core.recip
+
+.. autofunction:: calibrated_pixels_to_q

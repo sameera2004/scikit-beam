@@ -1,0 +1,6 @@
+skxray.core.roi.mean_intensity
+==============================
+
+.. currentmodule:: skxray.core.roi
+
+.. autofunction:: mean_intensity

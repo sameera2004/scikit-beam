@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.XrayLibWrap_Energy.get
+================================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. automethod:: XrayLibWrap_Energy.get

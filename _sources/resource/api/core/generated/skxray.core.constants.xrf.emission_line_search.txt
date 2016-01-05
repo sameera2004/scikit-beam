@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.emission_line_search
+==============================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. autofunction:: emission_line_search

@@ -1,0 +1,6 @@
+skxray.core.utils.pairwise
+==========================
+
+.. currentmodule:: skxray.core.utils
+
+.. autofunction:: pairwise

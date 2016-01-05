@@ -1,0 +1,6 @@
+skxray.core.recip.process_to_q
+==============================
+
+.. currentmodule:: skxray.core.recip
+
+.. autofunction:: process_to_q

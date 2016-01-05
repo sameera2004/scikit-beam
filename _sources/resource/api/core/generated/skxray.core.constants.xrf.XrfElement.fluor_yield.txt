@@ -1,0 +1,6 @@
+skxray.core.constants.xrf.XrfElement.fluor_yield
+================================================
+
+.. currentmodule:: skxray.core.constants.xrf
+
+.. autoattribute:: XrfElement.fluor_yield
