@@ -22,15 +22,15 @@ before_install:
 
 install:
   - export GIT_FULL_HASH=`git rev-parse HEAD`
-  # - conda config --set always_yes true
-  # - conda update conda
-  # - conda config --add channels scikit-xray
-  # - conda create -n testenv pip nose python=$TRAVIS_PYTHON_VERSION numpy scipy scikit-image six coverage cython xraylib lmfit=0.8.3 netcdf4
-  # - source activate testenv
+  - conda config --set always_yes true
+  - conda update conda
+  - conda config --add channels scikit-xray
+  - conda create -n testenv pip nose python=$TRAVIS_PYTHON_VERSION numpy scipy scikit-image six coverage cython xraylib lmfit=0.8.3 netcdf4
+  - source activate testenv
   # # need to build_ext -i for the tests so that the .so is local to the source
   # # code.  We could also setup.py develop, but I'm not sure if that is any
   # # better
-  # - python setup.py install build_ext -i
+  - python setup.py install build_ext -i
   # - pip install coveralls
   # - pip install codecov
 
@@ -43,8 +43,7 @@ after_success:
   # - codecov
   - export TRAVIS_BRANCH=master
   - if [ $TRAVIS_BRANCH == 'master' ] && [ $TRAVIS_PYTHON_VERSION == 3.5 ] && [ $TRAVIS_PULL_REQUEST == 'false']; then
-      conda create -n docs_env python=$TRAVIS_PYTHON_VERSION sphinx numpydoc ipython jupyter pip matplotlib --yes;
-      source activate docs_env;
+      conda install sphinx numpydoc ipython jupyter pip matplotlib;
       pip install sphinx_bootstrap_theme;
       cd ..;
       git clone https://github.com/scikit-beam/scikit-beam-examples.git;
