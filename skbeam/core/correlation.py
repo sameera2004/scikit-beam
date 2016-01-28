@@ -839,7 +839,7 @@ def one_time_from_two_time(two_time_corr):
     return one_time_corr
 
 
-def get_four_time_from_two_time(  g12,g2=None, rois=None  ):
+def get_four_time_from_two_time(g12, g2=None, rois=None):
     ''' 
     Dec 16, 2015, Y.G.@CHX
     Get four-time correlation function from two correlation function
@@ -870,10 +870,10 @@ def get_four_time_from_two_time(  g12,g2=None, rois=None  ):
     for q in  range(noqs):   
         temp=[]    
         if rois is None:
-            y=g12[:,:,q]  
+            y = g12[:,:,q]
         else:
             x1,x2,y1,y2 = rois
-            y=g12[x1:x2,y1:y2, q]
+            y = g12[x1:x2,y1:y2, q]
             m,n = y.shape
         norm =  ( g2[:,q][0] -1)**2  
         for tau in range(m): 
