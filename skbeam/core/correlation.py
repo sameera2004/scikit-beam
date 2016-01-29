@@ -840,11 +840,12 @@ def one_time_from_two_time(two_time_corr):
 
 
 def get_four_time_from_two_time(g12, g2=None, rois=None):
-    ''' 
-    Dec 16, 2015, Y.G.@CHX
+    """
     Get four-time correlation function from two correlation function
     namely, calculate the deviation of each diag line of g12 to get four-time correlation fucntion
-    TOBEDONE: deal with bad frames
+
+    This function computes two-time correlation
+    Original code : author: Yugang Zhang
     
     Parameters:
         g12: a 3-D array, two correlation function, shape as ( imgs_length, imgs_length, q)  
@@ -862,7 +863,7 @@ def get_four_time_from_two_time(g12, g2=None, rois=None):
         s1,s2 = 0,2000
         g4 = get_four_time_from_two_time( g12bm, g2b, roi=[s1,s2,s1,s2] )
          
-    '''      
+    """
     
     
     m,n,noqs = g12.shape
