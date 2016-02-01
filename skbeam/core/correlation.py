@@ -374,6 +374,7 @@ def multi_tau_auto_corr(num_levels, num_bufs, labels, images):
     gen = lazy_one_time(images, num_levels, num_bufs, labels)
     for result in gen:
         pass
+
     return result.g2, result.lag_steps
 
 
@@ -416,8 +417,8 @@ def auto_corr_scat_factor(lags, beta, relaxation_rate, baseline=1):
 
     These implementation are based on published work. [1]_
 
-    References
-    ----------
+    References:  text [1]_
+
     .. [1] L. Li, P. Kwasniewski, D. Orsi, L. Wiegart, L. Cristofolini,
        C. Caronna and A. Fluerasu, " Photon statistics and speckle
        visibility spectroscopy with partially coherent X-rays,"
@@ -505,8 +506,7 @@ def lazy_two_time(labels, images, num_frames, num_bufs, num_levels=1,
     on the time difference t, and hence the two-time correlation contour lines
     are parallel.
 
-    References
-    ----------
+    References:  text [1]_
 
     .. [1] A. Fluerasu, A. Moussaid, A. Mandsen and A. Schofield,
         "Slow dynamics and aging in collodial gels studied by x-ray photon
@@ -839,53 +839,78 @@ def one_time_from_two_time(two_time_corr):
     return one_time_corr
 
 
-def get_four_time_from_two_time(g12, g2=None, rois=None):
+def get_four_time_from_two_time(g12, g2, time_ran=None):
     """
     Get four-time correlation function from two correlation function
-    namely, calculate the deviation of each diag line of g12 to get four-time correlation fucntion
+    namely, calculate the deviation of each diagonal line of g12 to get
+    four-time correlation function.
 
-    This function computes two-time correlation
+    This function computes four-time correlation
     Original code : author: Yugang Zhang
     
-    Parameters:
-        g12: a 3-D array, two correlation function, shape as ( imgs_length, imgs_length, q)  
-    
-    Options:
-        g2: if not None, a 2-D array, shape as ( imgs_length,  q), or (tau, q)
-            one-time correlation fucntion, for normalization of the four-time
-        rois: if not None, a list, [x-slice-start, x-slice-end, y-slice-start, y-slice-end]
-   
-    Return:
-        g4f12: a 2-D array, shape as ( imgs_length,  q), 
-                   a four-time correlation function  
-     
-    One example:        
-        s1,s2 = 0,2000
-        g4 = get_four_time_from_two_time( g12bm, g2b, roi=[s1,s2,s1,s2] )
-         
+    Parameters
+    ----------
+    g12: array
+        two time correlation results
+        shape is (num ROI's, num images, num images)
+    g2 : array
+        one time correlation results
+        shape is either (num images, num ROI's) or (num of lag steps, num ROI's)
+        (see the notes in lazy_one_time)
+    time_ran : list
+        time range, give the desired time ranges for t1 and t2 the times used for
+        two time correlation, optional
+        len(list) = 4
+        e.g., [x1, x2, y1, y2]
+
+    Return
+    ------
+    g4 : array
+         four-time correlation
+         shape is (num ROI's, num images)
+
+    Notes
+    -----
+    The four-time correlation function is defined as
+
+    :math ::
+        C(q, t_1, t_2) = \frac{<I(q, t_1)I(q, t_2)>_pix }{<I(q, t_1)>_pix <I(q, t_2)>_pix}
+
+    Here, the ensemble averages are performed over many pixels of detector,
+    all having the same q value. The average time or age is equal to (t1+t2)/2,
+    measured by the distance along the t1 = t2 diagonal.
+    The time difference t = |t1 - t2|, with is distance from the t1 = t2
+    diagonal in the perpendicular direction.
+    In the equilibrium system, the two-time correlation functions depend only
+    on the time difference t, and hence the two-time correlation contour lines
+    are parallel.
+
+     References:  text [1]_, text [2]_
+
+    .. [1] A. Duri,H. Bissig, V. Trappe and L. Cipelletti,
+        "Time-resolved-correlation measurements of temporally heterogeneous
+         dynamics," Phys. Rev. E., vol 72, p 05141(1-17), 2005.
+
+    .. [2] A. Duri and L. Cipelletti, " Length scale dependence of dynamic
+       heterogeneity in a colloidal fractal gel", Europhysics Letters,
+       vol 76(5), p 972-978, 2006.
+
     """
-    
-    
-    m,n,noqs = g12.shape
-    g4f12 = []       
-    for q in  range(noqs):   
-        temp=[]    
-        if rois is None:
-            y = g12[:,:,q]
+    g4 = []
+    for x, y in zip(g2, g12):
+        temp = []
+        if rois is not None:
+            y = y[:, time_ran[0]:time_ran[1], time_ran[3]:time_ran[4]]
+        norm = (x[0] - 1)**2
+        for tau in range(y.shape[1]):
+            d_ = np.diag(y, k=int(tau))
+            d = d_[np.where(d_ != 1)]
+            g41 = (d.std()) ** 2 / norm
+            temp.append(g41)
+        temp = np.array(temp).reshape(len(temp), 1)
+        if q == 0:
+            g4 = temp
         else:
-            x1,x2,y1,y2 = rois
-            y = g12[x1:x2,y1:y2, q]
-            m,n = y.shape
-        norm =  ( g2[:,q][0] -1)**2  
-        for tau in range(m): 
-            d_ = np.diag(y,k=int(tau))
-            d = d_[   np.where( d_ !=1)            ]
-            g4 = ( d.std() )**2 /norm
-            temp.append( g4 )                                
-        temp = np.array( temp).reshape( len(temp),1)
-        if q==0:
-            g4f12 =  temp
-        else:
-            g4f12=np.hstack( [g4f12,  temp] ) 
+            g4 = np.hstack([g4, temp])
             
-    return g4f12
+    return g4
