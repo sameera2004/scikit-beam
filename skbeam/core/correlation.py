@@ -823,13 +823,13 @@ def one_time_from_two_time(two_time_corr):
     ----------
     two_time_corr : array
         matrix of two time correlation
-        shape (number of labels(ROI's), number of frames, number of frames)
+        shape (num_rois, len(lag_steps), len(lag_steps))
 
     Returns
     -------
     one_time_corr : array
         matrix of one time correlation
-        shape (number of labels(ROI's), number of frames)
+        shape (number of labels(ROI's), len(lag_steps)
     """
 
     one_time_corr = np.zeros((two_time_corr.shape[0], two_time_corr.shape[2]))
@@ -841,8 +841,8 @@ def one_time_from_two_time(two_time_corr):
 
 def get_four_time_from_two_time(g12, g2, time_ran=None):
     """
-    Get four-time correlation function from two correlation function
-    namely, calculate the deviation of each diagonal line of g12 to get
+    Get four-time correlation function from two correlation function namely,
+    calculate the deviation of each diagonal line of g12 to get
     four-time correlation function.
 
     This function computes four-time correlation
@@ -850,18 +850,18 @@ def get_four_time_from_two_time(g12, g2, time_ran=None):
     
     Parameters
     ----------
-    g12: array
+    g2: array
         two time correlation results
-        shape is (num ROI's, num images, num images)
+        shape is (num_rois, len(lag_steps), len(lag_steps))
     g2 : array
-        one time correlation results
-        shape is either (num images, num ROI's) or (num of lag steps, num ROI's)
+        one time correlation results from the two time
+        shape is (num_rois, len(lag_steps))
         (see the notes in lazy_one_time)
     time_ran : list
-        time range, give the desired time ranges for t1 and t2 the times used for
-        two time correlation, optional
-        len(list) = 4
-        e.g., [x1, x2, y1, y2]
+        time range, give the desired time ranges for t1 and t2
+        the times used for two time correlation, optional
+        len(list) = 2
+        e.g., [x1, x2]
 
     Return
     ------
@@ -874,30 +874,29 @@ def get_four_time_from_two_time(g12, g2, time_ran=None):
     The four-time correlation function is defined as
 
     :math ::
-        C(q, t_1, t_2) = \frac{<I(q, t_1)I(q, t_2)>_pix }{<I(q, t_1)>_pix <I(q, t_2)>_pix}
+        g4(q,T,t) = \frac{<I(q, 0)I(q, T)I(q, t)I(q, t+ T)>}{<I(q, 0)I(q,T)>^2}
+
+        where T and t are the delays
 
     Here, the ensemble averages are performed over many pixels of detector,
-    all having the same q value. The average time or age is equal to (t1+t2)/2,
-    measured by the distance along the t1 = t2 diagonal.
-    The time difference t = |t1 - t2|, with is distance from the t1 = t2
-    diagonal in the perpendicular direction.
-    In the equilibrium system, the two-time correlation functions depend only
-    on the time difference t, and hence the two-time correlation contour lines
-    are parallel.
+    all having the same q value.
 
-     References:  text [1]_, text [2]_
+    References:  text [1]_, text [2]_
 
     .. [1] A. Duri,H. Bissig, V. Trappe and L. Cipelletti,
         "Time-resolved-correlation measurements of temporally heterogeneous
-         dynamics," Phys. Rev. E., vol 72, p 05141(1-17), 2005.
+        dynamics," Phys. Rev. E., vol 72, p 05141(1-17), 2005.
 
-    .. [2] A. Duri and L. Cipelletti, " Length scale dependence of dynamic
-       heterogeneity in a colloidal fractal gel", Europhysics Letters,
-       vol 76(5), p 972-978, 2006.
+    .. [2] P. A. Lemieux and D. J. Durian, "Investigating non-Gaussian
+       scattering process by using nth-order intensity correlation functions",
+       J. Opt. Soc. Am. A., vol 16, p 972-978, 2006.
 
     """
     g4 = []
-    for x, y in zip(g2, g12):
+
+    if g2 is None:
+        one_time = one_time_from_two_time(g2)
+    for x, y in zip(g2, g2):
         temp = []
         if rois is not None:
             y = y[:, time_ran[0]:time_ran[1], time_ran[3]:time_ran[4]]
