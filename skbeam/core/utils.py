@@ -52,7 +52,6 @@ from itertools import tee
 import logging
 logger = logging.getLogger(__name__)
 
-from ..ext import ctrans
 
 md_value = namedtuple("md_value", ['value', 'units'])
 
@@ -341,8 +340,8 @@ keys_core = {
         "units": "um",
     },
     "voxel_size": {
-        "description": ("3 element tuple defining the (x y z) dimensions of the "
-                         "voxel"),
+        "description": ("3 element tuple defining the (x y z) dimensions "
+                        "of the voxel"),
         "type": tuple,
         "units": "um"
     },
@@ -401,9 +400,9 @@ keys_core = {
         }
     },
     "bounding_box": {
-        "description": ("physical extents of the array: useful for " +
-                        "volume alignment, transformation, merge and " +
-                         "spatial comparison of multiple volumes"),
+        "description": ("physical extents of the array: useful for ",
+                        "volume alignment, transformation, merge and ",
+                        "spatial comparison of multiple volumes"),
         "x_min": {
             "description": "minimum spatial coordinate along the x-axis",
             "type": float,
@@ -475,8 +474,6 @@ def subtract_reference_images(imgs, is_reference):
         raise ValueError("The first image is not a reference image")
     # grab the first image
     ref_imge = imgs[0]
-    # just sum the bool array to get count
-    ref_count = np.sum(is_reference)
     # make an array of zeros of the correct type
     corrected_image = deque()
     # zip together (lazy like this is really izip), images and flags
@@ -896,6 +893,13 @@ def grid3d(q, img_stack,
     greater than one. The n_threads can be used to set the number of cores used
     to correct this if the standard error is needed to be accurate.
     """
+    try:
+        from ..ext import ctrans
+    except ImportError:
+        raise NotImplementedError(
+            "ctrans is not available on your platform. See"
+            "https://github.com/scikit-beam/scikit-beam/issues/418"
+            "to follow updates to this problem.")
 
     if n_threads is None:
         n_threads = 0
@@ -1065,8 +1069,7 @@ def d_to_q(d):
 
 def q_to_twotheta(q, wavelength):
     """
-    Helper function to convert :math:`q` + :math:`\\lambda` to :math:`2\\theta`.
-    The point of this function is to prevent fat-fingered typos.
+    Helper function to convert q to two-theta.
 
     By definition the relationship is:
 
@@ -1103,8 +1106,7 @@ def q_to_twotheta(q, wavelength):
 
 def twotheta_to_q(two_theta, wavelength):
     """
-    Helper function to convert :math:`2\\theta` + :math:`\\lambda` to :math:`q`.
-    The point of this function is to prevent fat-fingered typos.
+    Helper function to convert two-theta to q
 
     By definition the relationship is:
 
@@ -1220,13 +1222,14 @@ def geometric_series(common_ratio, number_of_images, first_term=1):
     geometric_series : list
         time series
 
-    Note
-    ----
-    :math ::
-     a + ar + ar^2 + ar^3 + ar^4 + ...
+    Notes
+    -----
+    .. math::
+        a + ar + ar^2 + ar^3 + ar^4 + ...
 
-     a - first term in the series
-     r - is the common ratio
+    a - first term in the series
+
+    r - is the common ratio
     """
 
     geometric_series = [first_term]
