@@ -838,7 +838,7 @@ def one_time_from_two_time(two_time_corr):
     return one_time_corr
 
 
-def get_four_time_from_two_time(g12, g2, time_ran=None):
+def four_time_from_two_time(g2_two, g2_one=None, time_ran=None):
     """
     Get four-time correlation function from two correlation function namely,
     calculate the deviation of each diagonal line of g12 to get
@@ -849,22 +849,22 @@ def get_four_time_from_two_time(g12, g2, time_ran=None):
     
     Parameters
     ----------
-    g2: array
+    g2_two: array
         two time correlation results
         shape is (num_rois, len(lag_steps), len(lag_steps))
-    g2 : array
+    g2_one: array, optional
         one time correlation results from the two time
         shape is (num_rois, len(lag_steps))
         (see the notes in lazy_one_time)
-    time_ran : list
+    time_ran: list, optional
         time range, give the desired time ranges for t1 and t2
         the times used for two time correlation, optional
         len(list) = 2
         e.g., [x1, x2]
 
-    Return
-    ------
-    g4 : array
+    Returns
+    -------
+    g4: array
          four-time correlation
          shape is (num ROI's, num images)
 
@@ -893,22 +893,21 @@ def get_four_time_from_two_time(g12, g2, time_ran=None):
     """
     g4 = []
 
-    if g2 is None:
-        one_time = one_time_from_two_time(g2)
-    for x, y in zip(g2, g2):
+    if g2_one is None:
+        one_time = one_time_from_two_time(g2_one)
+    for x, y in zip(g2_one, g2_two):
         temp = []
-        if rois is not None:
+        if time_ran is not None:
             y = y[:, time_ran[0]:time_ran[1], time_ran[3]:time_ran[4]]
         norm = (x[0] - 1)**2
         for tau in range(y.shape[1]):
             d_ = np.diag(y, k=int(tau))
             d = d_[np.where(d_ != 1)]
-            g41 = (d.std()) ** 2 / norm
-            temp.append(g41)
-        temp = np.array(temp).reshape(len(temp), 1)
-        if q == 0:
-            g4 = temp
-        else:
-            g4 = np.hstack([g4, temp])
-            
+            result = (d.std()) ** 2 / norm
+            temp.append(result)
+        g4.append(np.array(temp).reshape(len(temp), 1))
+        #if q == 0:
+        #    g4 = temp
+        #else:
+        #    g4 = np.hstack([g4, temp])
     return g4
