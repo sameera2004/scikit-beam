@@ -42,6 +42,7 @@ from __future__ import absolute_import, division, print_function
 
 import collections
 import scipy.ndimage.measurements as ndim
+from skimage.draw import ellipse_perimeter
 import numpy as np
 from . import utils
 import logging
@@ -640,3 +641,43 @@ def box(shape, v_edges, h_edges=None, h_values=None, v_values=None):
             coords.append((h[0], v[0], h[1]-h[0], v[1] - v[0]))
 
     return rectangles(coords, v_values.shape)
+
+
+def ellipse(shape, center, yradius, xradius):
+    """Generate ellipse perimeter co-ordinates to draw ellipse shaped rois'
+    Parameters
+    ----------
+    shape : tuple
+        Shape of the image in which to create the ROIs
+        e.g., shape=(512, 512)
+    center : tuple
+        Centre coordinate of ellipse
+    yradius : list
+       List of Minor axes for ellipse
+    xradius : list
+        List of Major axes for ellipse
+
+    Returns
+    -------
+    label_array : array
+        Elements not inside any ROI are zero; elements inside each
+        ROI are 1, 2, 3, corresponding to the order they are specified
+        in edges.
+
+    """
+    labels_array = np.zeros(shape, dtype=np.int64)
+
+    if len(yraius) != len(xradius):
+        raise ValueError("Number of minor and major semi-axes have to be same")
+    l = 0
+    for y, x in zip(yradius, xradius):
+        rr, cc = ellipse_perimeter(center[0], center[1], y, x)
+        labels_array[rr, cc] = l + 1
+
+    return label_array
+
+
+
+
+
+
