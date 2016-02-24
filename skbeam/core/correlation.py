@@ -504,12 +504,16 @@ def lazy_two_time(labels, images, num_frames, num_bufs, num_levels=1,
     on the time difference ``t``, and hence the two-time correlation contour
     lines are parallel.
 
-    References:  text [1]_
+    References:  text [1]_, text[2]_
 
-    .. [1]
-        A. Fluerasu, A. Moussaid, A. Mandsen and A. Schofield, "Slow dynamics
+    .. [1] A. Fluerasu, A. Moussaid, A. Mandsen and A. Schofield, "Slow dynamics
         and aging in collodial gels studied by x-ray photon correlation
         spectroscopy," Phys. Rev. E., vol 76, p 010401(1-4), 2007.
+
+    .. [2] A. Madesen, R. L. Leheny, H. Guo, M. Sprung and O. Czakkei, "Beyond
+        simple exponential correlation functions and equilibrium dynamics in
+        x-ray photon correlation spectroscopy," New J. Phys., vol 12,
+        p 055001(1-16), 2010.
     """
     if two_time_internal_state is None:
         two_time_internal_state = _init_state_two_time(num_levels, num_bufs,
