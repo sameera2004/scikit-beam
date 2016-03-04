@@ -643,7 +643,7 @@ def box(shape, v_edges, h_edges=None, h_values=None, v_values=None):
     return rectangles(coords, v_values.shape)
 
 
-def ellipse(shape, center, yradius, xradius):
+def ellipse(shape, center, y_radius, x_radius):
     """Generate ellipse perimeter co-ordinates to draw ellipse shaped rois'
     Parameters
     ----------
@@ -652,9 +652,9 @@ def ellipse(shape, center, yradius, xradius):
         e.g., shape=(512, 512)
     center : tuple
         Centre coordinate of ellipse
-    yradius : list
+    y_radius : list
        List of Minor axes for ellipse
-    xradius : list
+    x_radius : list
         List of Major axes for ellipse
 
     Returns
@@ -665,19 +665,19 @@ def ellipse(shape, center, yradius, xradius):
         in edges.
 
     """
-    labels_array = np.zeros(shape, dtype=np.int64)
+    label_array = np.zeros(shape, dtype=np.int64)
 
-    if len(yraius) != len(xradius):
-        raise ValueError("Number of minor and major semi-axes have to be same")
+    if len(y_radius) != len(x_radius):
+        raise ValueError("Number of minor and major semi-axes"
+                         "have to be same")
     l = 0
-    for y, x in zip(yradius, xradius):
+    for y, x in zip(y_radius, x_radius):
         rr, cc = ellipse_perimeter(center[0], center[1], y, x)
-        labels_array[rr, cc] = l + 1
+        cc = cc[rr >- 1]
+        cc = cc[cc >- 1]
+        rr = rr[rr >- 1]
+        rr = rr[cc >- 1]
+        l += 1
+        label_array[rr, cc] = l
 
     return label_array
-
-
-
-
-
-

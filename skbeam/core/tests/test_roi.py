@@ -372,3 +372,15 @@ def test_bars_boxes():
     assert_raises(ValueError, roi.box, shape, n_edges)
     assert_raises(ValueError, roi.box, shape, edges, h_values=h_val,
                   v_values=v_values)
+
+
+def test_ellipse():
+    shape = (20, 25)
+    center = (10, 12)
+    y_radius = [3, 8]
+    x_radius = [4]
+    assert_raises(ValueError, roi.ellipse, shape,
+                  center, y_radius, x_radius)
+
+    x_radius = [4, 12]
+    label_array = roi.ellipse(shape, center, y_radius, x_radius)
