@@ -384,3 +384,5 @@ def test_ellipse():
 
     x_radius = [4, 12]
     label_array = roi.ellipse(shape, center, y_radius, x_radius)
+
+    assert_array_equal([1, 2], np.unique(label_array)[:1])
