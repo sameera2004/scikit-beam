@@ -673,10 +673,10 @@ def ellipse(shape, center, y_radius, x_radius):
     l = 0
     for y, x in zip(y_radius, x_radius):
         rr, cc = ellipse_perimeter(center[0], center[1], y, x)
-        cc = cc[rr >- 1]
-        cc = cc[cc >- 1]
-        rr = rr[rr >- 1]
-        rr = rr[cc >- 1]
+        cc = cc[rr > -1]
+        cc = cc[cc > -1]
+        rr = rr[rr > -1]
+        rr = rr[cc > -1]
         l += 1
         label_array[rr, cc] = l
 
