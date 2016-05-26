@@ -831,3 +831,30 @@ def one_time_from_two_time(two_time_corr):
         for j in range(two_time_corr.shape[2]):
             one_time_corr[:, j] = np.trace(g, offset=j)/two_time_corr.shape[2]
     return one_time_corr
+
+
+def time_binning(time_stamps):
+    """
+    Parameters
+    ----------
+    time_stamps : list
+        real time taken to collect each image as a list
+
+    Returns
+    -------
+    time_bin : list
+        time bin for each delay time according to time stamps
+    all_bins : array
+        delay time bins according to time stamps
+    """
+    time_bins = []
+    all_times = [0]
+    for c, t in enumerate(time_stamps):
+        time = [0]
+        stamp = 0
+        for item in (time_stamps[:c][::-1]):
+            stamp += item
+            time.append(stamp)
+            all_bins.append(stamp)
+        time_bins.append(time)
+    return time_bin, np.unique(np.sort(all_bins))
