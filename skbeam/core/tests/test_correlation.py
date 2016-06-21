@@ -45,7 +45,8 @@ from skbeam.core.correlation import (multi_tau_auto_corr,
                                      lazy_one_time,
                                      lazy_two_time, two_time_corr,
                                      two_time_state_to_results,
-                                     one_time_from_two_time)
+                                     one_time_from_two_time,
+                                     one_time_using_time_stamps)
 from skbeam.core.mask import bad_to_nan_gen
 
 
@@ -201,6 +202,15 @@ def test_bad_images():
 
 
 def test_one_time_from_two_time():
+    setup_inputs()
+    g2, lag_steps, _state = two_time_corr(roi, imgs, stack,
+                                          num_buf, num_lev)
+
+    one_time = one_time_from_two_time(g2)
+    assert_array_almost_equal(one_time[0, :], np.array([1.0, 0.9, 0.8, 0.7,
+                                                        0.6, 0.5, 0.4, 0.3,
+                                                        0.2, 0.1]))
+def setup_inputs():
     num_lev = 1
     num_buf = 10  # must be even
     x_dim = 10
@@ -213,13 +223,18 @@ def test_one_time_from_two_time():
     roi[0:x_dim//10, 0:y_dim//10] = 5
     roi[x_dim//10:x_dim//5, y_dim//10:y_dim//5] = 3
 
-    g2, lag_steps, _state = two_time_corr(roi, imgs, stack,
-                                          num_buf, num_lev)
 
-    one_time = one_time_from_two_time(g2)
-    assert_array_almost_equal(one_time[0, :], np.array([1.0, 0.9, 0.8, 0.7,
-                                                        0.6, 0.5, 0.4, 0.3,
-                                                        0.2, 0.1]))
+def test_one_time_using_time_stamps():
+    setup_inputs()
+    time_diff = (0, 20, 20, 20, 50, 20, 20, 20, 50, )
+    g2, all_lags = one_time_using_time_stamps(imgs, time_diff,
+                                              roi, num_buf)
+
+
+def test_time_binning():
+    time_diff = (0, 20, 20, 20, 50, 20, 20, 20, 50, )
+
+    time_bins, all_lags = time_binning(time_diff)
 
 
 if __name__ == '__main__':
