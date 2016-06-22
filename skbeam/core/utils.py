@@ -1218,3 +1218,31 @@ def geometric_series(common_ratio, number_of_images, first_term=1):
     while geometric_series[-1]*common_ratio < number_of_images:
         geometric_series.append(geometric_series[-1]*common_ratio)
     return geometric_series
+
+
+def time_binning(time_diff):
+    """
+    Bin the time differences into all possible bins
+    Parameters
+    ----------
+    time_diff : list
+        time difference from previous image for each image as a list
+
+    Returns
+    -------
+    time_bin : list
+        time bin for each delay time according to time bins
+    all_lags : array
+        all possible time lags from the time difference
+    """
+    time_bins = []
+    all_lags = [0]
+    for c, t in enumerate(time_diff):
+        time = [0]
+        stamp = 0
+        for item in (time_diff[:c][::-1]):
+            stamp += item
+            time.append(stamp)
+            all_lags.append(stamp)
+        time_bins.append(time)
+    return time_bins, np.unique(np.sort(all_lags))

@@ -42,7 +42,7 @@ This module is for functions specific to time correlation
 
 """
 from __future__ import absolute_import, division, print_function
-from .utils import multi_tau_lags
+from .utils import multi_tau_lags, time_binning
 from .roi import extract_label_indices
 from collections import namedtuple
 import numpy as np
@@ -833,34 +833,6 @@ def one_time_from_two_time(two_time_corr):
     return one_time_corr
 
 
-def time_binning(time_diff):
-    """
-    Bin the time differences into all possible bins
-    Parameters
-    ----------
-    time_diff : list
-        time difference from previous image for each image as a list
-
-    Returns
-    -------
-    time_bin : list
-        time bin for each delay time according to time bins
-    all_lags : array
-        all possible time lags from the time difference
-    """
-    time_bins = []
-    all_lags = [0]
-    for c, t in enumerate(time_diff):
-        time = [0]
-        stamp = 0
-        for item in (time_diff[:c][::-1]):
-            stamp += item
-            time.append(stamp)
-            all_lags.append(stamp)
-        time_bins.append(time)
-    return time_bins, np.unique(np.sort(all_lags))
-
-
 def one_time_using_time_stamps(images, time_diff,
                                labels, num_bufs):
     """
@@ -880,11 +852,11 @@ def one_time_using_time_stamps(images, time_diff,
     label_array = []
     pixel_list = []
 
-    if images_stack.ndim == 4:
-        im_stack = images.reshape(images.shape[0] * images.shape[1],
-                                        images.shape[2], images.shape[3])
+    if images.ndim == 4:
+        images = images.reshape(images.shape[0] * images.shape[1],
+                                images.shape[2], images.shape[3])
 
-    label_array, pixel_list = roi.extract_label_indices(labels)
+    label_array, pixel_list = extract_label_indices(labels)
     # map the indices onto a sequential list of integers starting at 1
     label_mapping = {label: n+1
                      for n, label in enumerate(np.unique(label_array))}
@@ -901,11 +873,11 @@ def one_time_using_time_stamps(images, time_diff,
     # to increment buffer
     cur = np.ones(num_levels, dtype=np.int64)
 
-    time_bin, all_lags = time_binning(time_stamps)
+    time_bin, all_lags = time_binning(time_diff)
 
     # G holds the un normalized auto- correlation result. We
     # accumulate computations into G as the algorithm proceeds.
-    G = np.zeros((len(all_lagss), num_rois), dtype=np.float64)
+    G = np.zeros((len(all_lags), num_rois), dtype=np.float64)
     # matrix for normalizing G into g2
 
     past_intensity = np.zeros_like(G)
@@ -922,12 +894,12 @@ def one_time_using_time_stamps(images, time_diff,
     # create a shorthand reference to the results and state named tuple
     # s = internal_state
     j = 0
-    for image in im_stack:
+    for image in images:
 
         # Compute the correlations for all higher levels.
         timing = time_bin[j]
         level = 0
-        j +=1
+        j += 1
         # increment buffer
         cur[0] = (1 + cur[0]) % num_bufs
 
