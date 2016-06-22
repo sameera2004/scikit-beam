@@ -201,40 +201,36 @@ def test_bad_images():
     assert_array_almost_equal(g2[:, 1], g2_n[:, 1], decimal=3)
 
 
-def test_one_time_from_two_time():
-    setup_inputs()
-    g2, lag_steps, _state = two_time_corr(roi, imgs, stack,
-                                          num_buf, num_lev)
-
-    one_time = one_time_from_two_time(g2)
-    assert_array_almost_equal(one_time[0, :], np.array([1.0, 0.9, 0.8, 0.7,
-                                                        0.6, 0.5, 0.4, 0.3,
-                                                        0.2, 0.1]))
 def setup_inputs():
+    global num_lev, num_buf, imgs, roi2, stack
     num_lev = 1
     num_buf = 10  # must be even
     x_dim = 10
     y_dim = 10
     stack = 10
     imgs = np.random.randint(1, 3, (stack, x_dim, y_dim))
-    roi = np.zeros_like(imgs[0])
+    roi2 = np.zeros_like(imgs[0])
     # make sure that the ROIs can be any integers greater than 1.
     # They do not have to start at 1 and be continuous
-    roi[0:x_dim//10, 0:y_dim//10] = 5
-    roi[x_dim//10:x_dim//5, y_dim//10:y_dim//5] = 3
+    roi2[0:x_dim//10, 0:y_dim//10] = 5
+    roi2[x_dim//10:x_dim//5, y_dim//10:y_dim//5] = 3
 
+
+def test_one_time_from_two_time():
+    setup_inputs()
+    g2, lag_steps, _state = two_time_corr(roi2, imgs, stack,
+                                          num_buf, num_lev)
+
+    one_time = one_time_from_two_time(g2)
+    assert_array_almost_equal(one_time[0, :], np.array([1.0, 0.9, 0.8, 0.7,
+                                                        0.6, 0.5, 0.4, 0.3,
+                                                        0.2, 0.1]))
 
 def test_one_time_using_time_stamps():
     setup_inputs()
-    time_diff = (0, 20, 20, 20, 50, 20, 20, 20, 50, )
+    time_diff = (0, 20, 20, 20, 50, 20, 20, 20, 50)
     g2, all_lags = one_time_using_time_stamps(imgs, time_diff,
-                                              roi, num_buf)
-
-
-def test_time_binning():
-    time_diff = (0, 20, 20, 20, 50, 20, 20, 20, 50, )
-
-    time_bins, all_lags = time_binning(time_diff)
+                                              roi2, num_buf)
 
 
 if __name__ == '__main__':

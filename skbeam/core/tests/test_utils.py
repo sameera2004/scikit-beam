@@ -542,6 +542,17 @@ def test_geometric_series():
     assert_array_equal(time_series, [1, 5, 25, 125])
 
 
+def test_time_binning():
+    time_diff = (20, 20, 20, 20, 50, 20, 20, 20, 50)
+
+    time_bins, all_lags = core.time_binning(time_diff)
+
+    assert_array_equal(all_lags, [0, 20, 40, 50, 60, 70, 80, 90, 110,
+                                  130, 150, 170, 190])
+    assert_array_equal(time_bins[1], [0, 20])
+    assert_array_equal(time_bins[-1], [0, 20, 40, 60, 110, 130, 150, 170, 190])
+
+
 if __name__ == '__main__':
     import nose
     nose.runmodule(argv=['-s', '--with-doctest'], exit=False)
