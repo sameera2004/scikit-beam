@@ -842,11 +842,11 @@ def one_time_from_two_time(two_time_corr):
     return one_time_corr
 
 
-def four_time_from_two_time(g2_two, g2_one=None, time_ran=None):
+def four_time_from_two_time(g2_two, g2_one=None, time_range=None):
     """
-    Get four-time correlation function from two correlation function namely,
-    calculate the deviation of each diagonal line of g12 to get
-    four-time correlation function.
+    Get four-time correlation function from two correlation function,
+    calculate the deviation of each diagonal line of g12
+    (two-time correlation) to get four-time correlation function.
 
     This function computes four-time correlation
     Original code : author: Yugang Zhang
@@ -855,16 +855,16 @@ def four_time_from_two_time(g2_two, g2_one=None, time_ran=None):
     ----------
     g2_two: array
         two time correlation results
-        shape is (num_rois, len(lag_steps), len(lag_steps))
+        shape is (num_rois, len(t1 lag_steps), len(t2 lag_steps))
     g2_one: array, optional
         one time correlation results from the two time
         shape is (num_rois, len(lag_steps))
         (see the notes in lazy_one_time)
-    time_ran: list, optional
+    time_range: list, optional
         time range, give the desired time ranges for t1 and t2
         the times used for two time correlation, optional
-        len(list) = 2
-        e.g., [x1, x2]
+        len(list) = 4
+        e.g., [t1_r1, t1_r2, t2_r1, t2_r2]
 
     Returns
     -------
@@ -901,13 +901,13 @@ def four_time_from_two_time(g2_two, g2_one=None, time_ran=None):
         one_time = one_time_from_two_time(g2_one)
     for x, y in zip(g2_one, g2_two):
         temp = []
-        if time_ran is not None:
-            y = y[:, time_ran[0]:time_ran[1], time_ran[3]:time_ran[4]]
+        if time_range is not None:
+            y = y[:, time_range[0]:time_range[1], time_range[3]:time_range[4]]
         norm = (x[0] - 1)**2
         for tau in range(y.shape[1]):
             d_ = np.diag(y, k=int(tau))
-            d = d_[np.where(d_ != 1)]
-            result = (d.std()) ** 2 / norm
+            #d = d_[np.where(d_ != 1)]
+            result = (d_.std()) ** 2 / norm
             temp.append(result)
         g4.append(np.array(temp).reshape(len(temp), 1))
         #if q == 0:
