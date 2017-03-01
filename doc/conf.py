@@ -34,6 +34,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
               'sphinx.ext.extlinks',
               'sphinx.ext.intersphinx',
+              'sphinx_gallery.gen_gallery'
               'plot_generator',
               'numpydoc',
               'IPython.sphinxext.ipython_directive',
