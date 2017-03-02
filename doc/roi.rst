@@ -39,6 +39,7 @@ Segmented Rings
 
     import matplolib.pyplot as plt
     import skbeam.core.roi as roi
+    import xray_vision.mpl_plotting as mpl_plot
 
     first_q = 5.0  # inner radius of the inner-most ring
     delta_q = 5.0  #ring thickness
