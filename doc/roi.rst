@@ -39,7 +39,6 @@ Segmented Rings
 
     import matplolib.pyplot as plt
     import skbeam.core.roi as roi
-    import xray_vision.mpl_plotting as mpl_plot
 
     first_q = 5.0  # inner radius of the inner-most ring
     delta_q = 5.0  #ring thickness
@@ -61,7 +60,13 @@ Segmented Rings
     axes.set_title("Segmented Rings")
     axes.set_xlim(38, 120)
     axes.set_ylim(38, 120)
-    im = mpl_plot.show_label_array(axes, label_array, cmap)
+    min = max(.5, kwargs.pop('vmin', .5))
+
+    ax.set_aspect('equal')
+    im = ax.imshow(label_array, cmap="viridis",
+                   interpolation='nearest',
+                   vmin=vmin,
+                   **kwargs)
     plt.show()
 
 
